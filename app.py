@@ -118,6 +118,12 @@ def update_language(reader,language,accent,gender):
     else:
         print("No reader available. \nAlex is reading for you.")
 
+if not args.text:
+    try:
+        text_to_read = input("Type text to speak: ").strip() or text_to_read
+    except EOFError:
+        pass
+
 try:
     # initialize the reading engine
     reader = pyttsx3.init()
