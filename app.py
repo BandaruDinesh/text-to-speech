@@ -66,6 +66,42 @@ def update_language(reader,language,accent,gender):
     if len(filtered_voice_list):
         #Displaying the details of filtered voices
         print("AVAILABLE READERS")
+        for index,voice in enumerate(filtered_voice_list):
+            print("\nVoice Index : %d" % index)
+            print("ID: %s" % voice.id)
+            print("Name: %s" % voice.name)
+            print("Gender: %s" % voice.gender)
+            print("Language: %s" % voice.language)
+        index =0
+        try:
+            if args.index and filtered_voice_list[int(args.index)]:
+                index =int(args.index)
+        except IndexError:
+            pass
+        print("\n%s is reading for you." % filtered_voice_list[index].name)
+        #applying the voice of selected reader
+        reader.setproperty('voice',filtered_voice_list[index].id)
+    else:
+        print("No reader available. \nAlex is reading for you.")
+
+try:
+    # initialize the reading engine
+    reader = pyttsx3.init()
+    #updating readers language, accent and gender before reading text.
+    update_language(reader,language,accent,gender)
+    #read the given text
+    reader.say(text_to_read)
+    #Execution of reading process
+    reader.runAndWait()
+    #Finish the reading process
+    reader.stop()
+except OSError as error:
+    traceback.print_exception(*sys.exc_info())
+    print("There is a chance that some required system lib and try again")
+except Exception as error:
+    traceback.print_exception(*sys.exc_info())
+    print("something went wrong; please report the issue at https://github.com/BandaruDinesh/text-to-speech/issues")
+
 
 
 
